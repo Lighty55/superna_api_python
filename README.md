@@ -23,7 +23,8 @@ pip install -r requirements.txt
 ```sh
 Path: /swagger_client/configuration.py
 ```
-Edit these values api_ip - username - password - api_key
+
+Edit these values: api_ip - username - password - api_key
 ```python
 # Default Base url
 self.api_ip = "<api_ip>"
@@ -41,12 +42,14 @@ self.api_key = {"api_key"}
 ```sh
 Path: /main.py
 ```
+
 Edit these values: host - port
 ```python
 if __name__ == '__main__':
     logging.basicConfig(filename='error.log',level=logging.DEBUG)
     app.run(host='<host>', port=<port>, use_reloader=True)
 ```
+
 ## Logging
 ```sh
 filename='error.log'
