@@ -5,7 +5,6 @@ import requests, time, json, logging
 from prometheus_client import Gauge, CollectorRegistry, Enum, Info, generate_latest, REGISTRY, Histogram
 
 requests.packages.urllib3.disable_warnings()
-# registry = CollectorRegistry()
 
 def auth_data():
     # Configure API key authorization: internalApiKey
@@ -49,17 +48,16 @@ def refresh_registry():
     for collector in collectors:
         registry = REGISTRY.unregister(collector)
 
-def parse_jobv2_readiness():
+def parse_metrics():
     data = fetch_data()
     registry = refresh_registry()
     # labels = ["name", "started", "finished", "state", 'status', 'id']
     readiness_zone_state = Enum('readiness_zone_state', 'Zone readiness state', states=['all', 'running', 'finished'])
-    readiness_zone_info = Info('readiness_zone_info', 'Zone readiness state')
-    readiness_zone_status = Gauge('readiness_zone_status', 'Zone Readiness status')
-    readiness_zone_histogram = Histogram('readiness_zone_request_latency_seconds', 'Description of histogram')
+    readiness_zone_info = Info('readiness_zone_info', 'Zone readiness start and finish time')
+    readiness_zone_status = Gauge('readiness_zone_status', 'Zone readiness status')
+    readiness_zone_histogram = Histogram('readiness_zone_request_latency_seconds', 'Zone readiness request latency seconds')
     readiness_zone_histogram.observe(4.7) 
     readiness_zone_state.state('all')
-    nodev1_info = Info('nodev1_info', 'Node Info')
     if data is not None:
         for job_data in data['get_jobv2_readiness']:
             if job_data['started'] or job_data['finished']:
@@ -70,15 +68,6 @@ def parse_jobv2_readiness():
                 readiness_zone_status.set(1)
             else:
                 readiness_zone_status.set(0)
-        for job_data in data['get_nodev1']:
-            if job_data['name'] or job_data['ip']:
-                name = job_data['name']
-                ip =  job_data['ip']
-                node_id =  job_data['id']
-                nodev1_info.info({'name': F'{name}', 'ip': F'{ip}', 'id': F'{node_id}'})
-        
-def parse_metrics():
-    parse_jobv2_readiness()
 
 def get_metrics():
     metrics = generate_latest()
