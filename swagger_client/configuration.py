@@ -50,7 +50,7 @@ class Configuration(object):
         # Password for HTTP basic authentication
         self.password = "3y3gl4ss"
         # dict to store API key(s)
-        self.api_key = {}
+        self.api_key = {"igls-id3004q7fdh54ium70bm5psns2n70fm5mke7l9tpe5gs76lvkv6"}
         # dict to store API prefix (e.g. Bearer)
         self.api_key_prefix = {}
         # function to refresh API key if expired

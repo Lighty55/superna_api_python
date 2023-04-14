@@ -4,11 +4,8 @@ from requests.auth import HTTPBasicAuth
 import requests, time, json, logging
 from prometheus_client import Gauge, CollectorRegistry, Enum, Info, generate_latest, REGISTRY, Histogram
 
-
 requests.packages.urllib3.disable_warnings()
-API_KEY = "igls-id3004q7fdh54ium70bm5psns2n70fm5mke7l9tpe5gs76lvkv6" 
-registry = CollectorRegistry()
-
+# registry = CollectorRegistry()
 
 def auth_data():
     # Configure API key authorization: internalApiKey
@@ -17,7 +14,7 @@ def auth_data():
         host = configuration.host
         username = configuration.username
         password = configuration.password
-        headers = {'api_key': F"{API_KEY}"}
+        headers = {'api_key': F"{configuration.api_key}"}
         auth = HTTPBasicAuth(F"{username}", F"{password}")
         return host, username, password, headers, auth
     except:
